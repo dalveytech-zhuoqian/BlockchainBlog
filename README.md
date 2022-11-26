@@ -6,3 +6,4 @@
 4. [cross bridge](https://github.com/ben46/BlockchainBlog/blob/main/crosschain.md)
 5. [签名permit](https://github.com/ben46/BlockchainBlog/blob/main/vote.md)
 6. [zksync](https://github.com/ben46/BlockchainBlog/blob/main/zksync.md)
+7. [zksync demo](https://github.com/ben46/BlockchainBlog/blob/main/zksync_demo.md)
