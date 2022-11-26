@@ -3,3 +3,4 @@
 3. [call_and_delegatecall](https://github.com/ben46/BlockchainBlog/blob/main/call_and_delegatecall.md)
 4. [cross bridge](https://github.com/ben46/BlockchainBlog/blob/main/crosschain.md)
 5. [签名permit](https://github.com/ben46/BlockchainBlog/blob/main/vote.md)
+6. [zksync](https://github.com/ben46/BlockchainBlog/blob/main/zksync.md)
