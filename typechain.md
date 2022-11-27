@@ -41,3 +41,55 @@ typechain: {
   }
   ```
 
+添加依赖
+```
+"devDependencies": {
+    "@nomiclabs/hardhat-etherscan": "^2.1.1",
+    "@nomiclabs/hardhat-truffle5": "^2.0.0",
+    "@nomiclabs/hardhat-web3": "^2.0.0",
+    "@typechain/hardhat": "workspace:^6.1.4",
+    "@typechain/truffle-v5": "workspace:^8.0.2",
+    "@types/chai": "^4.2.15",
+    "@types/chai-as-promised": "^7.1.3",
+    "@types/mocha": "^8.2.0",
+    "@types/node": "^14",
+    "chai": "^4.3.0",
+    "chai-as-promised": "^7.1.1",
+    "chai-bn": "^0.2.1",
+    "dotenv": "^8.2.0",
+    "hardhat": "^2.9.9",
+    "ts-generator": "0.0.8",
+    "ts-node": "^10.7.0",
+    "typechain": "workspace:^8.1.1",
+    "typescript": "^4.6",
+    "web3": "^1.3.4",
+    "web3-core": "^1",
+    "web3-eth-contract": "^1",
+    "web3-core-helpers": "^1.2.1",
+    "web3-core-promievent": "^1.2.1",
+    "web3-eth-abi": "^1.2.1",
+    "web3-utils": "^1.2.1",
+    "bn.js": "^4.11.0",
+    "@types/bn.js": "^4.11.6"
+  }
+```
+
+然后运行
+
+```
+pnpm install # it will automatically run TypeChain types generation
+# pnpm generate-types to manually regenerate them
+pnpm test
+```
+
+会自动生成typechain-types文件夹
+
+然后在test文件中
+```ts
+import {xxxcontract, xxxInstance} from '../typechain-types'
+```
+
+
+
+
+
