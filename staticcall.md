@@ -1,4 +1,4 @@
-staticcall
+[staticcall](https://eips.ethereum.org/EIPS/eip-214)
 
 是一个操作吗
 
