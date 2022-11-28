@@ -8,4 +8,4 @@
 6. [zksync](https://github.com/ben46/BlockchainBlog/blob/main/zksync.md)
 7. [zksync demo](https://github.com/ben46/BlockchainBlog/blob/main/zksync_demo.md)
 8. [defi概览与简析](https://github.com/ben46/BlockchainBlog/blob/main/defi_all.md)
-9. [callstatic和](https://github.com/WTFAcademy/WTF-Ethers/blob/main/11_CallStatic/readme.md) [staticcall](https://eips.ethereum.org/EIPS/eip-214)
+9. [callstatic和](https://github.com/WTFAcademy/WTF-Ethers/blob/main/11_CallStatic/readme.md) [staticcall](https://github.com/ben46/BlockchainBlog/blob/main/staticcall.md) 
