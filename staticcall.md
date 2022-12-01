@@ -54,17 +54,15 @@ func (evm *EVM) StaticCall(caller ContractRef, addr common.Address, input []byte
 		// When an error was returned by the EVM or when setting the creation code
 		// above we revert to the snapshot and consume any gas remaining. Additionally
 		// when we're in Homestead this also counts for code storage gas errors.
-    // evm报错，或者当设置creation code在
-    // 另外当我们在， 这也会当作代码储存燃料费错误
+	        // evm报错，或者当设置creation code在
+	        // 另外当我们在， 这也会当作代码储存燃料费错误
 		ret, err = evm.interpreter.Run(contract, input, true)
 		gas = contract.Gas
 	}
 	if err != nil {
-    //如果没有报错
-    //将数据库恢复到快照的样子
+	        //如果报错， 将数据库恢复到快照的样子
 		evm.StateDB.RevertToSnapshot(snapshot)
 		if err != ErrExecutionReverted {
-      //如果恢复成功
 			gas = 0
 		}
 	}
