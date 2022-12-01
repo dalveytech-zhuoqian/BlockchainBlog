@@ -63,9 +63,9 @@ function createPair(address tokenA, address tokenB) external returns(address pai
 		// mload, 从内存读取
 		// create2 根据salt生成固定地址
 		pair := create2(0, // 创建合约时往合约中打的 ETH 数量
-								add(bytecode, 32), //memory_start（代码在内存中的起始位置，一般固定为 add(bytecode, 0x20) ）
-								mload(bytecode), //memory_length（代码长度，一般固定为 mload(bytecode) ）
-								salt)
+			add(bytecode, 32), //memory_start（代码在内存中的起始位置，一般固定为 add(bytecode, 0x20) ）
+			mload(bytecode), //memory_length（代码长度，一般固定为 mload(bytecode) ）
+			salt)
 	}
 	//省略...
 }
