@@ -51,3 +51,88 @@ func opReturnDataCopy(pc *uint64, interpreter *EVMInterpreter, scope *ScopeConte
 }
 ```
 
+## uniswapv2
+`UniswapV2Factory.sol`
+```solidity
+function createPair(address tokenA, address tokenB) external returns(address pair){
+	//省略...
+	bytes memory bytecode = type(UniswapV2Pair).creationCode;
+	bytes32 salt = keccak256(abi.encodePacked(token0, token1))
+	assembly{
+		// add就是相加
+		// mload, 从内存读取
+		// create2 根据salt生成固定地址
+		pair := create2(0, // 创建合约时往合约中打的 ETH 数量
+								add(bytecode, 32), //memory_start（代码在内存中的起始位置，一般固定为 add(bytecode, 0x20) ）
+								mload(bytecode), //memory_length（代码长度，一般固定为 mload(bytecode) ）
+								salt)
+	}
+	//省略...
+}
+```
+
+evm opcode example
+```
+byte(vm.PUSH1), 0x00, // salt + 32
+byte(vm.PUSH1), byte(len(initCode)), // size 
+byte(vm.PUSH1), byte(32 - len(initCode)), // offset
+byte(vm.PUSH1), 0x00, // endowment
+byte(vm.CREATE2),
+```
+
+`create2`源码
+```go
+func opCreate2(pc *uint64, interpreter *EVMInterpreter, scope *ScopeContext) ([]byte, error) {
+	if interpreter.readOnly {
+		return nil, ErrWriteProtection
+	}
+	var (
+		endowment    = scope.Stack.pop()//endowment（创建合约时往合约中打的 ETH 数量）
+		offset, size = scope.Stack.pop(), scope.Stack.pop()
+		salt         = scope.Stack.pop()
+		input        = scope.Memory.GetCopy(int64(offset.Uint64()), int64(size.Uint64()))
+		gas          = scope.Contract.Gas
+	)
+	// Apply EIP150
+	gas -= gas / 64
+	scope.Contract.UseGas(gas)
+	// reuse size int for stackvalue
+	stackvalue := size
+	//TODO: use uint256.Int instead of converting with toBig()
+	bigEndowment := big0
+	if !endowment.IsZero() {
+		bigEndowment = endowment.ToBig()
+	}
+	res, addr, returnGas, suberr := interpreter.evm.Create2(scope.Contract, input, gas,
+		bigEndowment, &salt)
+	// Push item on the stack based on the returned error.
+	if suberr != nil {
+		stackvalue.Clear()
+	} else {
+		stackvalue.SetBytes(addr.Bytes())
+	}
+	scope.Stack.push(&stackvalue)
+	scope.Contract.Gas += returnGas
+
+	if suberr == ErrExecutionReverted {
+		interpreter.returnData = res // set REVERT data to return data buffer
+		return res, nil
+	}
+	interpreter.returnData = nil // clear dirty return data buffer
+	return nil, nil
+}
+
+func (evm *EVM) Create2(caller ContractRef, code []byte, gas uint64, endowment *big.Int, salt *uint256.Int) (ret []byte, contractAddr common.Address, leftOverGas uint64, err error) {
+	codeAndHash := &codeAndHash{code: code}
+	contractAddr = crypto.CreateAddress2(caller.Address(), salt.Bytes32(), codeAndHash.Hash().Bytes())
+	return evm.create(caller, codeAndHash, gas, endowment, contractAddr, CREATE2)
+}
+
+func CreateAddress2(b common.Address, salt [32]byte, inithash []byte) common.Address {
+	return common.BytesToAddress(Keccak256([]byte{0xff}, b.Bytes(), salt[:], inithash)[12:])
+}
+```
+
+
+
+
