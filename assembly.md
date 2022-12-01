@@ -90,6 +90,7 @@ func opCreate2(pc *uint64, interpreter *EVMInterpreter, scope *ScopeContext) ([]
 		endowment    = scope.Stack.pop()//endowment（创建合约时往合约中打的 ETH 数量）
 		offset, size = scope.Stack.pop(), scope.Stack.pop()
 		salt         = scope.Stack.pop()
+		// 根据下标和长度, 从内存中取出input,也就是代码
 		input        = scope.Memory.GetCopy(int64(offset.Uint64()), int64(size.Uint64()))
 		gas          = scope.Contract.Gas
 	)
@@ -129,6 +130,7 @@ func (evm *EVM) Create2(caller ContractRef, code []byte, gas uint64, endowment *
 }
 
 func CreateAddress2(b common.Address, salt [32]byte, inithash []byte) common.Address {
+	// 计算地址
 	return common.BytesToAddress(Keccak256([]byte{0xff}, b.Bytes(), salt[:], inithash)[12:])
 }
 ```
