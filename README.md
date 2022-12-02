@@ -20,4 +20,13 @@
 15. [WCDB中的锁（四）自旋锁](https://github.com/ben46/ben46.github.com/wiki/WCDB%E4%B8%AD%E7%9A%84%E9%94%81%EF%BC%88%E5%9B%9B%EF%BC%89%E8%87%AA%E6%97%8B%E9%94%81)
 
 16. [wcdb中的DispatchQueue.Once是如何实现的](https://github.com/ben46/ben46.github.com/wiki/WCDB%E4%B8%AD%E7%9A%84DispatchQueue.Once)
-
+---------------------------------------
+# TO-DOs
+1. [Ethereum Code - Block.go pt 1和p2p网络](https://www.youtube.com/watch?v=gXRIkDASkWc)
+2. [Building a Blockchain in Golang - Part 3 - BadgerDB](https://www.youtube.com/watch?v=szOZ3p-5YIc&list=PLpP5MQvVi4PGmNYGEsShrlvuE2B33xV1L&index=3)
+3. [衍生品合约dex|GMX项目分享( part 2 )](https://www.youtube.com/watch?v=7wTPIUw6iGo)
+4. [arbitrum源码](https://www.youtube.com/@DappLearning/search?query=arbitrum)
+5. [GMX V1源码](https://github.com/gmx-io/gmx-contracts/tree/v1)
+6. [GMX zksync源码](https://github.com/gmx-io/gmx-contracts/tree/zksync)
+7. [uniswap v3](https://www.youtube.com/watch?v=WCLsIcjLSXc)
+8. [uniswap v3 白皮书](https://www.youtube.com/watch?v=ypASWR5b9zA&t=7521s)
