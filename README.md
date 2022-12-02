@@ -23,15 +23,25 @@
 ---------------------------------------
 # TO-DOs
 
+## ethereum
 1. [Ethereum Code - Block.go pt 1和p2p网络](https://www.youtube.com/watch?v=gXRIkDASkWc)
 2. [Building a Blockchain in Golang - Part 3 - BadgerDB](https://www.youtube.com/watch?v=szOZ3p-5YIc&list=PLpP5MQvVi4PGmNYGEsShrlvuE2B33xV1L&index=3)
-3. [衍生品合约dex|GMX项目分享( part 2 )](https://www.youtube.com/watch?v=7wTPIUw6iGo)
+15. go-ethereum [link](https://www.youtube.com/watch?v=2EUkk8txlOw)
+
+## go-lang & arbitrum
+13. go lang https://gobyexample-cn.github.io/
+14. https://github.com/tensor-programming/golang-blockchain/tree/part_3
+12. [arbitrum源码](https://www.youtube.com/@DappLearning/search?query=arbitrum)
+
+## gmx
 5. [GMX V1源码](https://github.com/gmx-io/gmx-contracts/tree/v1)
 6. [GMX zksync源码](https://github.com/gmx-io/gmx-contracts/tree/zksync)
-7. [uniswap v3](https://www.youtube.com/watch?v=WCLsIcjLSXc)
-8. [uniswap v3 白皮书](https://www.youtube.com/watch?v=ypASWR5b9zA&t=7521s)
-9. curve
-10. go-ethereum [link](https://www.youtube.com/watch?v=2EUkk8txlOw)
-11. [arbitrum源码](https://www.youtube.com/@DappLearning/search?query=arbitrum)
-12. go lang https://gobyexample-cn.github.io/
+7. [衍生品合约dex|GMX项目分享( part 2 )](https://www.youtube.com/watch?v=7wTPIUw6iGo)
+
+## uniswap&curve
+8. [uniswap v3](https://www.youtube.com/watch?v=WCLsIcjLSXc)
+9. [uniswap v3 白皮书](https://www.youtube.com/watch?v=ypASWR5b9zA&t=7521s)
+10. curve
+
+
 
