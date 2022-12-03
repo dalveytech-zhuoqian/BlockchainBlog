@@ -142,15 +142,48 @@ type Receipt struct {
 ```
 
 ```go
+// 私有方法, 布隆函数, 映射到布隆的计算
+// bloomValues returns the bytes (index-value pairs) to set for the given data
+func bloomValues(data []byte, hashbuf []byte) (uint, byte, uint, byte, uint, byte) {
+	sha := hasherPool.Get().(crypto.KeccakState)
+	sha.Reset()
+	sha.Write(data)
+	sha.Read(hashbuf)
+	hasherPool.Put(sha)
+	// The actual bits to flip
+	v1 := byte(1 << (hashbuf[1] & 0x7))
+	v2 := byte(1 << (hashbuf[3] & 0x7))
+	v3 := byte(1 << (hashbuf[5] & 0x7))
+	// The indices for the bytes to OR in
+	i1 := BloomByteLength - uint((binary.BigEndian.Uint16(hashbuf)&0x7ff)>>3) - 1
+	i2 := BloomByteLength - uint((binary.BigEndian.Uint16(hashbuf[2:])&0x7ff)>>3) - 1
+	i3 := BloomByteLength - uint((binary.BigEndian.Uint16(hashbuf[4:])&0x7ff)>>3) - 1
+
+	return i1, v1, i2, v2, i3, v3
+}
+
+// 私有方法(把布隆过滤器加起来)
+// add is internal version of Add, which takes a scratch buffer for reuse (needs to be at least 6 bytes)
+func (b *Bloom) add(d []byte, buf []byte) {
+	i1, v1, i2, v2, i3, v3 := bloomValues(d, buf)
+	b[i1] |= v1
+	b[i2] |= v2
+	b[i3] |= v3
+}
+
+// 
 // CreateBloom creates a bloom filter out of the give Receipts (+Logs)
 func CreateBloom(receipts Receipts) Bloom {
 	buf := make([]byte, 6)
 	var bin Bloom
 	//对每个收据调用, 生成bloom
 	for _, receipt := range receipts {
+	//所有的收据的布隆加起来
 		for _, log := range receipt.Logs {
+		// 所有的logs的布隆 加起来
 			bin.add(log.Address.Bytes(), buf)
 			for _, b := range log.Topics {
+			//所有的主题的布隆 加起来
 				bin.add(b[:], buf)
 			}
 		}
@@ -161,6 +194,7 @@ func CreateBloom(receipts Receipts) Bloom {
 // 查找
 // BloomLookup is a convenience-method to check presence in the bloom filter
 func BloomLookup(bin Bloom, topic bytesBacked) bool {
+//碰撞测试,如果返回true,可能在里面
 	return bin.Test(topic.Bytes())
 }
 
