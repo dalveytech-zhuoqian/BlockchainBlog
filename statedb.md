@@ -10,6 +10,27 @@
 
 打包block的时候, 不需要上传这个statedb, 只要上传block信息就行
 ```go
+//MPT
+type Trie struct {
+	root  node
+	owner common.Hash
+
+	// Keep track of the number leaves which have been inserted since the last
+	// hashing operation. This number will not directly map to the number of
+	// actually unhashed nodes.
+	unhashed int
+
+	// db is the handler trie can retrieve nodes from. It's
+	// only for reading purpose and not available for writing.
+	db *Database
+
+	// tracer is the tool to track the trie changes.
+	// It will be reset after each commit operation.
+	tracer *tracer
+}
+```
+
+```go
 type StateDB struct {
 	db         Database//这是一个interface, 数据库存储的地方,修改数据库真实的value的
 	prefetcher *triePrefetcher
@@ -28,12 +49,14 @@ type Header struct {
 	// 叔叔哈希, 就是父节点的相邻节点(也可能比父节点要大)
 	UncleHash   common.Hash    `json:"sha3Uncles"       gencodec:"required"`
 	Coinbase    common.Address `json:"miner"`
-  // 状态树的根节点
+	// 状态树的根节点
 	Root        common.Hash    `json:"stateRoot"        gencodec:"required"` 
-  // 交易的根节点
+	// 交易的根节点
 	TxHash      common.Hash    `json:"transactionsRoot" gencodec:"required"`
-  //收据的根节点
+	//收据的根节点
 	ReceiptHash common.Hash    `json:"receiptsRoot"     gencodec:"required"`
+	// 整个区块的布隆区块, 多个收据的bloom filter合并在一起得到的
+	Bloom       Bloom          `json:"logsBloom"        gencodec:"required"`
 }
 ```
 
@@ -46,6 +69,105 @@ type Block struct {
 	transactions Transactions
 }
 ```
+
+## core/types/block.go
+```go
+//创建了交易trie和收据trie
+func NewBlock(header *Header, txs []*Transaction, uncles []*Header, receipts []*Receipt, hasher TrieHasher) *Block {
+	b := &Block{header: CopyHeader(header)}
+
+	// 创建交易数----------------------
+	if len(txs) == 0 {
+		b.header.TxHash = EmptyRootHash
+	} else {
+		// 跟哈希值
+		b.header.TxHash = DeriveSha(Transactions(txs), hasher)
+		b.transactions = make(Transactions, len(txs))
+		copy(b.transactions, txs)
+	}
+
+	// 创建收据树---------------------
+	if len(receipts) == 0 {
+		b.header.ReceiptHash = EmptyRootHash
+	} else {
+		// root 哈希值
+		b.header.ReceiptHash = DeriveSha(Receipts(receipts), hasher)
+		// 创建bloom filter, 每个交易执行完之后, 会得到一个收据, 所以交易列表的长度应该和收据列表的长度一样
+		b.header.Bloom = CreateBloom(receipts)
+	}
+
+	// 叔父区块---------------------
+	if len(uncles) == 0 {
+		b.header.UncleHash = EmptyUncleHash
+	} else {
+	//计算hash
+		b.header.UncleHash = CalcUncleHash(uncles)
+		b.uncles = make([]*Header, len(uncles))
+		//构造trie
+		for i := range uncles {
+			b.uncles[i] = CopyHeader(uncles[i])
+		}
+	}
+
+	return b
+}
+```
+
+```go
+//收据
+// Receipt represents the results of a transaction.
+type Receipt struct {
+	// Consensus fields: These fields are defined by the Yellow Paper
+	Type              uint8  `json:"type,omitempty"`
+	PostState         []byte `json:"root"`
+	Status            uint64 `json:"status"`
+	CumulativeGasUsed uint64 `json:"cumulativeGasUsed" gencodec:"required"`
+	// 布隆过滤器, 根据logs产生的
+	Bloom             Bloom  `json:"logsBloom"         gencodec:"required"`
+	// 每个收据可以包含多个log
+	Logs              []*Log `json:"logs"              gencodec:"required"`
+
+	// Implementation fields: These fields are added by geth when processing a transaction.
+	// They are stored in the chain database.
+	TxHash          common.Hash    `json:"transactionHash" gencodec:"required"`
+	ContractAddress common.Address `json:"contractAddress"`
+	GasUsed         uint64         `json:"gasUsed" gencodec:"required"`
+
+	// Inclusion information: These fields provide information about the inclusion of the
+	// transaction corresponding to this receipt.
+	BlockHash        common.Hash `json:"blockHash,omitempty"`
+	BlockNumber      *big.Int    `json:"blockNumber,omitempty"`
+	TransactionIndex uint        `json:"transactionIndex"`
+}
+```
+
+```go
+// CreateBloom creates a bloom filter out of the give Receipts (+Logs)
+func CreateBloom(receipts Receipts) Bloom {
+	buf := make([]byte, 6)
+	var bin Bloom
+	//对每个收据调用, 生成bloom
+	for _, receipt := range receipts {
+		for _, log := range receipt.Logs {
+			bin.add(log.Address.Bytes(), buf)
+			for _, b := range log.Topics {
+				bin.add(b[:], buf)
+			}
+		}
+	}
+	return bin
+}
+
+// 查找
+// BloomLookup is a convenience-method to check presence in the bloom filter
+func BloomLookup(bin Bloom, topic bytesBacked) bool {
+	return bin.Test(topic.Bytes())
+}
+
+```
+
+
+
 
 
 
