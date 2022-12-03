@@ -11,6 +11,8 @@
 9. [callstatic和](https://github.com/WTFAcademy/WTF-Ethers/blob/main/11_CallStatic/readme.md) [staticcall](https://github.com/ben46/BlockchainBlog/blob/main/staticcall.md) 
 10. [assembly内联汇编小汇总](https://github.com/ben46/BlockchainBlog/blob/main/assembly.md)
 11. [aave protocol v2 白皮书/源码简析](https://github.com/ben46/protocol-v2/blob/master/README.md)
+11. [statedb的设计原理和源码](https://github.com/ben46/BlockchainBlog/blob/main/statedb.md)
+------------------------------------------------
 12. [WCDB中的锁（一）读写锁](https://github.com/ben46/ben46.github.com/wiki/WCDB%E4%B8%AD%E7%9A%84%E9%94%81%EF%BC%88%E4%B8%80%EF%BC%89%E8%AF%BB%E5%86%99%E9%94%81)
 
 13. [WCDB中的锁（二）不公平锁](https://github.com/ben46/ben46.github.com/wiki/WCDB中的锁（二）不公平锁)
