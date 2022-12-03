@@ -9,6 +9,8 @@
 * 第二, 我们需要保证节点上传的信息和原来的树是吻合的, 所以采用了hash值作为路径进行查找遍历
 * 第三, 我们需要修改数据的代价极小, 这种树的结构只用修改一小部分分支即可,不用整个树重构
 
+而随着以太坊中数据量的不断扩增，其世界树的深度和节点数也在疯狂膨胀，如果我们每次访问账户状态（EOA外部账户 或是 合约账户），都需要对世界状态树进行至少 N=树的深度 的访问，才能获取到账户的状态信息。
+
 从程序设计角度，StateDB 有多种用途：
 
 维护账户状态到世界状态的映射。
@@ -16,7 +18,7 @@
 支持持久化状态到数据库中。
 是状态进出默克尔树的媒介。
 
-实际上 StateDB 充当状态（数据）、Trie(树)、LevelDB（存储）的协调者。可以从以下三个角度思考
+* 实际上 StateDB 充当状态（数据）、Trie(树)、LevelDB（存储）的协调者。可以从以下三个角度思考
 
 打包block的时候, 不需要上传这个statedb, 只要上传block信息就行
 
@@ -24,11 +26,24 @@
 //core/state/statedb.go
 type StateDB struct {
 	//操作状态的底层数据库，在实例化 StateDB 时指定 ②。
+	// 3. 第三层存储-------数据库
 	db         Database//这是一个interface, 数据库存储的地方,修改数据库真实的value的
 	prefetcher *triePrefetcher
 	trie       Trie//世界状态所在的树实例对象，现在只有以太坊改进的默克人前缀压缩树。
 	originalRoot common.Hash // 原来的root,状态修改之前
 
+
+	// 2. 第二层存储------快照(数据库和内存混合)
+	// 快照就是给定一个区块的以太坊状态的完整试图(好像最多是150个区块?)
+	// 就是把所有的账户和合约的storage slot放在一起, 都用扁平的key-value表示
+	// 
+	snaps         *snapshot.Tree
+	snap          snapshot.Snapshot
+	snapDestructs map[common.Hash]struct{}
+	snapAccounts  map[common.Hash][]byte
+	snapStorage   map[common.Hash]map[common.Hash][]byte // 就是这个咯?
+	
+	// 1. 第一层存储-----缓存
 	// This map holds 'live' objects, which will get modified while processing a state transition.
 	// 活跃的对象储存在object里面, 在状态转移的时候, 这些数据会发生改动
 	// use 账户地址as key的账户状态对象，能够在内存中维护使用过的账户。
@@ -38,6 +53,20 @@ type StateDB struct {
 	stateObjectsDirty   map[common.Address]struct{} // State objects modified in the current execution
   //...
 }
+
+// 快照的数据结构
+// core/state/snapshot/snashot.go
+type Tree struct {
+	//快照的持久化数据库
+	diskdb ethdb.KeyValueStore      // Persistent database to store the snapshot
+	//快照的内存数据库
+	triedb *trie.Database           // In-memory cache to access the trie through
+	cache  int                      // Megabytes permitted to use for read caches
+	layers map[common.Hash]snapshot // Collection of all known layers
+	lock   sync.RWMutex // 读写互斥锁
+}
+
+
 ```
 可以看到 stateObject 中维护关于某个账户的所有信息，涉及账户地址、账户地址哈希、账户属性、底层数据库、存储树等内容。
 ```go
@@ -78,7 +107,9 @@ func (self *StateDB) getStateObject(addr common.Address) (stateObject *stateObje
 		}
 		return obj
 	}
- 
+ 	// If no live objects are available, attempt to use snapshots
+	// 如果缓存不存在, 从快照里面取
+	//...
 	enc, err := self.trie.TryGet(addr[:])//②从树里面获取
 	if len(enc) == 0 {
 		self.setError(err)
