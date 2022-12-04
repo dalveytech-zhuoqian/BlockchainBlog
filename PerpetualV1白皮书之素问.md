@@ -15,17 +15,17 @@
 - - 确保AMM有足够的抵押品支持
 
 - 能获得什么: 
- - - 质押奖励+一部分交易费用
+ - - 质押奖励+一部分手续费收入, 风险是保险基金赔付的损失
  - 还有一部分amm利润去哪了
  - - Strike’s Insurance Fund
 - Strike’s Insurance Fund是干嘛的
-- - 保护trader, 防止major losses
+- - 行情剧烈波动,平仓后穿仓的损失
 ![image](https://user-images.githubusercontent.com/1460432/205475216-9f646f74-70b7-4389-90ff-583df7227a5e.png)
 
 - 我很有钱, 我想投, 我应该怎么做呢
 - - 先用erc20和稳定币两个搭配, 换取平台基金
 - - 收到平台基金
-- - 质押到流动池
+- - 质押到流动储备(也就是保险基金)
 - 几天后可以取出我的基金
 - - 7天
 - 如果Strike’s Insurance Fund不够了会怎么样
