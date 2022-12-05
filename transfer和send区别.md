@@ -24,29 +24,48 @@ call的本意是发动函数调用, 当然也可以用来转账,
 
 对面合约收到转账之后, 啥也干不了
 
-所以如果对面合约有receive函数或者fallback函数, 
-
-那么我们调用的时候应该使用address.call.value
-
 如果我们想安全的调用,那么应该使用send,
 
 然后取返回值对面合约是不是想干点坏事, 结果gas不够报错了
+
+那么我们调用payable的时候应该使用address.call.value
 
 ERC20的转账
 -------------------------
 
 ```solidity
-function safeTransfer(   IERC20 token,  address to,   uint256 value   ) internal {
-    //我们需要在这里执行一个低级调用，
-    //以绕过Solidity的返回数据大小检查机制，
-    //因为我们是自己实现的。
-    //我们使用｛Address functionCall｝来执行此调用，
-    //该调用验证目标地址是否包含约定代码，并断言在低级调用中是否成功。
-    bytes memory returndata = address(token).functionCall(abi.encodeWithSelector(token.transfer.selector, to, value), "SafeERC20: low-level call failed");
+function safeTransfer(
+        IERC20 token,
+        address to,
+        uint256 value
+    ) internal {
+    
+    bytes memory data = abi.encodeWithSelector(token.transfer.selector, to, value)
+    address target = address(token)
+    require(address(this).balance >= value, "Address: insufficient balance for call");
+    (bool success, bytes memory returndata) = target.call{value: value}(data);
+
+    if (success) {
+        if (returndata.length == 0) {
+            require(isContract(target), "Address: call to non-contract");
+        }
+    } else {
+        if (returndata.length > 0) {
+            assembly {
+                let returndata_size := mload(returndata)
+                revert(add(32, returndata), returndata_size)
+            }
+        } else {
+            revert(errorMessage);
+        }
+    }
+
     if (returndata.length > 0) {
+        // Return data is optional
         require(abi.decode(returndata, (bool)), "SafeERC20: ERC20 operation did not succeed");
     }
 }
+
 ```
 
 
