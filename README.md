@@ -17,6 +17,7 @@
 13. [如何节省gas](https://github.com/ben46/BlockchainBlog/blob/main/gas_optimization.md)
 14. [智能合约为什么不是多线程](https://github.com/ben46/BlockchainBlog/blob/main/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6%E5%A4%9A%E7%BA%BF%E7%A8%8B.md)
 15. [衍生品永续合约交易所费用横向对比dydx,gmx,perp](https://github.com/ben46/BlockchainBlog/blob/main/PerpDexFee.md)
+16. [设计一个可升级合约](https://github.com/ben46/BlockchainBlog/blob/main/%E5%90%88%E7%BA%A6%E5%8D%87%E7%BA%A7.md)
 ------------------------------------------------
 12. [WCDB中的锁（一）读写锁](https://github.com/ben46/ben46.github.com/wiki/WCDB%E4%B8%AD%E7%9A%84%E9%94%81%EF%BC%88%E4%B8%80%EF%BC%89%E8%AF%BB%E5%86%99%E9%94%81)
 
