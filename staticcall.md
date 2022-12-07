@@ -1,5 +1,7 @@
 # 通过go-ethereum源码来看staticcall到底啥意思
 
+一般用于调用view/pure函数
+
 [staticcall](https://eips.ethereum.org/EIPS/eip-214)
 
 是一个操作吗
