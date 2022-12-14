@@ -66,14 +66,17 @@ function setPrices(address[] memory _tokens, uint256[] memory _prices) external 
 我们修改了传参方式和数据存储, 大幅的降低了gas(note: 16进制中, 我们吧uint256要移动4位, 才是移动16进制1位, 因为移动是2进制的算法, 2^4=16哦!)
 ```solidity
 contract FastPriceFeed{ 
-
+    // 我们这里12个hex算作一组数据, 64个hex一共一次可以传4个资产的价格数据, 由于是美元计价, 我们设计三个参数
+    // 1. MUL表示数字是否要乘以/除以一堆0
+    // 2. 0的个数
+    // 3. 10个代表价格的数字
     uint256 constant BTC_MUL_MASK      = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0; // prettier-ignore
     uint256 constant BTC_MUL_START_BIT_POSITION = 0;
 
     uint256 constant BTC_DECIMALS_MASK = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00F; // prettier-ignore
     uint256 constant BTC_DECIMALS_START_BIT_POSITION = 4;
     uint256 constant BTC_PRICE_MASK    = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000FFF; // prettier-ignore
-    uint256 constant BTC_PRICE_START_BIT_POSITION = 12;
+    uint256 constant BTC_PRICE_START_BIT_POSITION = 12; // 这个12是因为3个hex = 3*4=12
 
     uint256 constant ETH_MUL_MASK      = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0FFFFFFFFFFFF; // prettier-ignore
     uint256 constant ETH_MUL_START_BIT_POSITION = 0 + 12*4;
@@ -84,7 +87,7 @@ contract FastPriceFeed{
     uint256 constant ETH_PRICE_MASK    = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000FFFFFFFFFFFFFFF; // prettier-ignore
     uint256 constant ETH_PRICE_START_BIT_POSITION = 12 + 12*4; 
 
-    uint256 public constant PRICE_PRECISION = 10 ** 6;
+    uint256 public constant PRICE_PRECISION = 10 ** 6; // 我们保留美元的6位小数,足够了
 
     uint256 public priceMap;
 
