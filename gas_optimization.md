@@ -41,7 +41,7 @@ function loopArray_cached(uint256[] calldata ns) public returns (uint256 sum) {
 function loop_arr_magic(uint256 encoded_ns, uint256 length) public returns (uint256 sum) {
     for(uint256 i = 0; i < length;) {
         sum += encoded_ns & 0xff;
-        encoded_ns >>= 8; // mask移动2^8,8个byte
+        encoded_ns >>= 8; // mask移动8, 8 = 2个字节
         unchecked {
             i++;
         }
