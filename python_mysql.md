@@ -1,5 +1,4 @@
-我也不知道我在写什么, 反正全部重新搞了一遍之后
-就能用了
+
 # 方案1: mysql 官方
 MySQL Connector/Python Developer
 mysql connector python 
@@ -29,3 +28,10 @@ https://cdn.mysql.com//Downloads/Connector-C++/mysql-connector-c++-8.0.31-winx64
 
 安装这个
 https://cdn.mysql.com//Downloads/Connector-Python/mysql-connector-python-8.0.31-windows-x86-64bit.msi
+
+PyMySQL
+mysqlclient
+mysql
+mysql-connctor
+mysql-connector-python
+
