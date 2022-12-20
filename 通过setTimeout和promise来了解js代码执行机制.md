@@ -1,3 +1,4 @@
+https://blog.csdn.net/astar2022/article/details/127864325
 简单的说
 promis是同步, 因此先运行, promise是微任务,异步运行, 但是需要主线程运行完毕之后才运行, setTime是宏任务, 异步运行,优先级小于微任务
 ```js
