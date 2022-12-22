@@ -36,7 +36,9 @@ docker image搜索网址: [site](https://hub.docker.com/_/python)
 
 上传文件夹到远程服务器
 ```
-scp -r 用户名@服务器ip:. 本地文件夹路径
+scp -r /path/to/local/source user@ssh.example.com:/path/to/remote/destination 
+# 或者
+scp -r /path/to/local/source user@ssh.example.com:.
 ```
 
 
