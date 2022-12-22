@@ -14,6 +14,7 @@ source .venv/bin/activate
 
 docker文件demo
 ```dockerfile
+# syntax=docker/dockerfile:1
 FROM python:3.9.16-slim-bullseye
 WORKDIR /app
 COPY requirements.txt requirements.txt
