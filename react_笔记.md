@@ -18,27 +18,23 @@ arr.reduce(function(prev,cur,index,arr){
 }, init);
 ```
 
+不设置初始值
 ```js
 const arr = [1,2,3,4,5];
 const sum = arr.reduce(function(prev,cur,index,arr){
     console.log(prev,cur,index);
     return prev + cur;
 });
-console.log('arr:',arr,'sum:',sum);
+console.log('arr:',arr,'sum:',sum); // arr: [ 1, 2, 3, 4 ] sum: 10
 ```
 
+5设置初始值
 ```js
-const array1 = [1, 2, 3, 4];
-
-// 0 + 1 + 2 + 3 + 4
-const initialValue = 0;
-const sumWithInitial = array1.reduce(
-  (prev, cur) => prev + cur,
-  initialValue
-);
-
-console.log(sumWithInitial);
-// expected output: 10
-
+const arr = [1,2,3,4];
+const sum = arr.reduce(function(prev,cur,index,arr){
+    console.log(prev,cur,index);
+    return prev + cur;
+}, 5);
+console.log('arr:',arr,'sum:',sum);//arr: [ 1, 2, 3, 4 ] sum: 15
 ```
 
