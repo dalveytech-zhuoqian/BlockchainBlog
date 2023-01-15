@@ -75,6 +75,494 @@ https://api.thegraph.com/subgraphs/name/gmx-io/gmx-stats/graphql
 }
 ```
 
+# 重度用户的订单列表(单比订单金额大于101023,个人订单累计总数超过10单)
+```graphql
+query MyQuery {
+  orders( where: {
+    index_gt: "10"
+    size_gt: "1010231978679208721213980045706490000"
+    type: "increase"
+    status:"executed"
+  }) {
+    account
+    size
+    type
+    status
+    index
+  }
+}
+```
+```json
+{
+  "data": {
+    "orders": [
+      {
+        "account": "0x15e875bd7de4c3d1f57a9837c411a30ff5f12b38",
+        "size": "1308468646288209606986688000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "22"
+      },
+      {
+        "account": "0x254ca3c9c98cdb37a642d23a9946d1f1a929cd87",
+        "size": "1080135456170376396784359600000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "21"
+      },
+      {
+        "account": "0x254ca3c9c98cdb37a642d23a9946d1f1a929cd87",
+        "size": "1010605373208738572690680880000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "27"
+      },
+      {
+        "account": "0x2d62bd2bbc36db52040e3dca97afbe12c9773354",
+        "size": "2951737020863658418242372500000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "15"
+      },
+      {
+        "account": "0x2d62bd2bbc36db52040e3dca97afbe12c9773354",
+        "size": "2941176470588235294116625000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "16"
+      },
+      {
+        "account": "0x5152746bbc7d75c23d3982a563f01af55806c718",
+        "size": "1081107523725662850991960500000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "85"
+      },
+      {
+        "account": "0x55913786aceedee35144def52a9e9a65bd24279d",
+        "size": "1200474214582098399525270000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "16"
+      },
+      {
+        "account": "0x55913786aceedee35144def52a9e9a65bd24279d",
+        "size": "1551724137931034482758384300000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "18"
+      },
+      {
+        "account": "0x55913786aceedee35144def52a9e9a65bd24279d",
+        "size": "2498054054054054054053395000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "19"
+      },
+      {
+        "account": "0x55913786aceedee35144def52a9e9a65bd24279d",
+        "size": "2929999999999999999999484580000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "20"
+      },
+      {
+        "account": "0x65b1b96bd01926d3d60dd3c8bc452f22819443a9",
+        "size": "4591384123291654550740964000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "16"
+      },
+      {
+        "account": "0x65b1b96bd01926d3d60dd3c8bc452f22819443a9",
+        "size": "1178335653209220000000000000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "17"
+      },
+      {
+        "account": "0x65b1b96bd01926d3d60dd3c8bc452f22819443a9",
+        "size": "2851290811367390000000000000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "20"
+      },
+      {
+        "account": "0x65b1b96bd01926d3d60dd3c8bc452f22819443a9",
+        "size": "3295318247472315840153214400000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "21"
+      },
+      {
+        "account": "0x65b1b96bd01926d3d60dd3c8bc452f22819443a9",
+        "size": "2099533437013996889578972000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "22"
+      },
+      {
+        "account": "0x65b1b96bd01926d3d60dd3c8bc452f22819443a9",
+        "size": "4298203011136320000000000000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "25"
+      },
+      {
+        "account": "0x8376070c2a30b3174c7da50fa03095239953be16",
+        "size": "1075140243902439024389820000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "12"
+      },
+      {
+        "account": "0x8376070c2a30b3174c7da50fa03095239953be16",
+        "size": "1160757241959067458385685000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "16"
+      },
+      {
+        "account": "0x8e3ef6f89fe04a306dc6aaa44b7fd551e288a801",
+        "size": "5775650907590588235293850000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "11"
+      },
+      {
+        "account": "0x8e3ef6f89fe04a306dc6aaa44b7fd551e288a801",
+        "size": "2535428475247524752475238000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "17"
+      },
+      {
+        "account": "0x8e3ef6f89fe04a306dc6aaa44b7fd551e288a801",
+        "size": "4534876009411764705881822000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "18"
+      },
+      {
+        "account": "0x8e3ef6f89fe04a306dc6aaa44b7fd551e288a801",
+        "size": "3352723152709359605909930000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "22"
+      },
+      {
+        "account": "0x8e3ef6f89fe04a306dc6aaa44b7fd551e288a801",
+        "size": "2054058652550805882352290000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "34"
+      },
+      {
+        "account": "0x8e3ef6f89fe04a306dc6aaa44b7fd551e288a801",
+        "size": "2080127133529411764705762000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "36"
+      },
+      {
+        "account": "0x8e3ef6f89fe04a306dc6aaa44b7fd551e288a801",
+        "size": "2212102339178664705881160000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "38"
+      },
+      {
+        "account": "0x8e3ef6f89fe04a306dc6aaa44b7fd551e288a801",
+        "size": "2298420301568627450980320000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "39"
+      },
+      {
+        "account": "0x9cdfecedee9bdee998e7ae615910b714715e1e06",
+        "size": "1152073632398000000000000000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "12"
+      },
+      {
+        "account": "0x9f898a9baa8b69b7ee29702ca5a3cd03f31e848a",
+        "size": "1141116707805155089221795000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "12"
+      },
+      {
+        "account": "0x9f898a9baa8b69b7ee29702ca5a3cd03f31e848a",
+        "size": "1817377257589054183266675000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "14"
+      },
+      {
+        "account": "0x9f898a9baa8b69b7ee29702ca5a3cd03f31e848a",
+        "size": "1442227717441710000000000000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "17"
+      },
+      {
+        "account": "0x9f898a9baa8b69b7ee29702ca5a3cd03f31e848a",
+        "size": "3028140000661500000000000000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "19"
+      },
+      {
+        "account": "0x9f898a9baa8b69b7ee29702ca5a3cd03f31e848a",
+        "size": "1270165304087736789630030000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "20"
+      },
+      {
+        "account": "0x9f898a9baa8b69b7ee29702ca5a3cd03f31e848a",
+        "size": "2004807157077443758709780000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "21"
+      },
+      {
+        "account": "0x9f898a9baa8b69b7ee29702ca5a3cd03f31e848a",
+        "size": "1014596893667861409795465000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "23"
+      },
+      {
+        "account": "0x9f898a9baa8b69b7ee29702ca5a3cd03f31e848a",
+        "size": "2083504278606965174128428000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "24"
+      },
+      {
+        "account": "0x9f898a9baa8b69b7ee29702ca5a3cd03f31e848a",
+        "size": "1024770402717127607956100000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "25"
+      },
+      {
+        "account": "0x9f898a9baa8b69b7ee29702ca5a3cd03f31e848a",
+        "size": "3019634394752534287416780000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "28"
+      },
+      {
+        "account": "0x9f898a9baa8b69b7ee29702ca5a3cd03f31e848a",
+        "size": "2032947893269613699720920000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "29"
+      },
+      {
+        "account": "0x9f898a9baa8b69b7ee29702ca5a3cd03f31e848a",
+        "size": "2066733094384707287932612500000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "30"
+      },
+      {
+        "account": "0x9f898a9baa8b69b7ee29702ca5a3cd03f31e848a",
+        "size": "1780055373580394500895288000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "32"
+      },
+      {
+        "account": "0xa75fb3bd645a02b59a9963c3cc12f34dc86b9660",
+        "size": "1165000000000000000000000000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "15"
+      },
+      {
+        "account": "0xb396e2490a505104c310e2e8c799a391480f6828",
+        "size": "2099453658536585365852354000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "36"
+      },
+      {
+        "account": "0xb6734a7597cfa9ae7e7c6409bbbd4ec2c0a76332",
+        "size": "1277018827146000000000000000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "13"
+      },
+      {
+        "account": "0xb6734a7597cfa9ae7e7c6409bbbd4ec2c0a76332",
+        "size": "2238022751517000000000000000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "18"
+      },
+      {
+        "account": "0xb8e56d497ca6432b93ed59c4d357b98e144d27be",
+        "size": "1983359483610536200000000000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "26"
+      },
+      {
+        "account": "0xc7748db7338cc106aeb041b59965d0101eda8636",
+        "size": "1153455039733920000000000000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "13"
+      },
+      {
+        "account": "0xc7748db7338cc106aeb041b59965d0101eda8636",
+        "size": "1057157109303416470588036000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "29"
+      },
+      {
+        "account": "0xc7748db7338cc106aeb041b59965d0101eda8636",
+        "size": "1176470588235294117646947000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "30"
+      },
+      {
+        "account": "0xcb696fd8e239dd68337c70f542c2e38686849e90",
+        "size": "1479864143619602134885490000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "19"
+      },
+      {
+        "account": "0xcb696fd8e239dd68337c70f542c2e38686849e90",
+        "size": "1617852294191250000000000000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "37"
+      },
+      {
+        "account": "0xe1249fc86c7e52130e9ab75c14f10b310cf6280d",
+        "size": "1367126035175629268292456000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "171"
+      },
+      {
+        "account": "0xe1249fc86c7e52130e9ab75c14f10b310cf6280d",
+        "size": "1558564590830439856268000000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "320"
+      },
+      {
+        "account": "0xe1249fc86c7e52130e9ab75c14f10b310cf6280d",
+        "size": "1123044584956156862744391000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "330"
+      },
+      {
+        "account": "0xe1249fc86c7e52130e9ab75c14f10b310cf6280d",
+        "size": "1586509831010063414632944000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "334"
+      },
+      {
+        "account": "0xef37f910d5e09f86153f3b10964db70cfe47b7e2",
+        "size": "1423115366400000000000000000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "17"
+      },
+      {
+        "account": "0xf9a7f7a46a0f976886581a275dcfca523caff42b",
+        "size": "4686538544395924308586770000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "11"
+      },
+      {
+        "account": "0xf9a7f7a46a0f976886581a275dcfca523caff42b",
+        "size": "4682702440562833575933312000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "12"
+      },
+      {
+        "account": "0xf9a7f7a46a0f976886581a275dcfca523caff42b",
+        "size": "6957049822989977976844436700000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "13"
+      },
+      {
+        "account": "0xf9a7f7a46a0f976886581a275dcfca523caff42b",
+        "size": "5899330422125181950508630000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "14"
+      },
+      {
+        "account": "0xf9a7f7a46a0f976886581a275dcfca523caff42b",
+        "size": "5899330422125181950508928000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "15"
+      },
+      {
+        "account": "0xf9a7f7a46a0f976886581a275dcfca523caff42b",
+        "size": "3816049715498203493449548000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "16"
+      },
+      {
+        "account": "0xf9a7f7a46a0f976886581a275dcfca523caff42b",
+        "size": "4647292251334303736049906000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "17"
+      },
+      {
+        "account": "0xf9a7f7a46a0f976886581a275dcfca523caff42b",
+        "size": "2214468704512372634643005000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "20"
+      },
+      {
+        "account": "0xf9a7f7a46a0f976886581a275dcfca523caff42b",
+        "size": "2215208636584182435709680000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "21"
+      },
+      {
+        "account": "0xf9a7f7a46a0f976886581a275dcfca523caff42b",
+        "size": "2155378181862316729778460000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "25"
+      },
+      {
+        "account": "0xf9a7f7a46a0f976886581a275dcfca523caff42b",
+        "size": "2153207318186231672976960000000000000",
+        "type": "increase",
+        "status": "executed",
+        "index": "26"
+      }
+    ]
+  }
+}
+```
+
 
 # 累计开订单总数大于1000的用户
 ```
