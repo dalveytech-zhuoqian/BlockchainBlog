@@ -9,20 +9,18 @@
 大于等于和小于等于如何使用比较省gas
 -------------------------
 ```solidity
-function bbb()external view{//23515
-    require(ccc+1 > 0);
-}
-```
-
-```solidity
-function ddd()external view{//23519
+function ddd()external view{//23312
     require(ccc >= 0);
 }
 ```
-
 ```solidity
-function eee()external view{//30860, 30838
+function eee()external view{//23363
     require(ccc > 0);
+}
+```
+```solidity
+function bbb()external view{//23519
+    require(ccc+1 > 0);
 }
 ```
 
