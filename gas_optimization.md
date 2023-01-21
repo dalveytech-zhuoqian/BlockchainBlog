@@ -6,6 +6,28 @@
 * for循环中, 每次都要使用length, 可以把length存成变量, 放入stack中
 * 除了storage类型, 其他情况uint8并不会比uint256更省,反而还要多做一次cast
 
+大于等于和小于等于如何使用比较省gas
+-------------------------
+```solidity
+function bbb()external view{//23515
+    require(ccc+1 > 0);
+}
+```
+
+```solidity
+function ddd()external view{//23519
+    require(ccc >= 0);
+}
+```
+
+```solidity
+function eee()external view{//30860, 30838
+    require(ccc > 0);
+}
+```
+
+
+
 批量转账的时候
 ----------
 可以用yul把函数选择器存入内存
