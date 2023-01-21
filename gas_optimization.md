@@ -1,6 +1,6 @@
 原文: https://hackmd.io/@totomanov/gas-optimization-loops
 #### 总结:
-* 不要使用<= and >=
+* 不要使用<= and >=（备注，0.8.17版本测试，好像并没有区别，反而使用小于等于更节省gas）
 * for循环的i++这种可以使用unchecked, 从for那行拿到最下面
 * 一些简单的函数尽量用Yul(也就是assembly) [如何使用Yul](https://docs.soliditylang.org/en/latest/yul.html)
 * for循环中, 每次都要使用length, 可以把length存成变量, 放入stack中
@@ -24,7 +24,106 @@ function bbb()external view{//23519
 }
 ```
 
+结论：上个版本可能有这个区别，但是这个版本好像没有这个区别了
 
+附上另一个测试
+```solidity
+contract AAA{
+
+    function loop_lte() external pure returns (uint256 sum) {//58308
+        for(uint256 n = 0; n <= 99; n++) {
+            sum += n;
+        }
+    }
+
+    function loop_lt() external pure returns (uint256 sum) {//58633
+        for(uint256 n = 0; n < 100; n++) {
+            sum += n;
+        }
+    }
+
+}
+```
+
+
+for循环怎么写比较节省gas
+---------------------------
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.17;
+
+contract AAA{
+
+    function loop_unchecked_plusplus() external pure returns (uint256 sum) {//46633
+        for(uint256 n = 0; n < 100;) {
+            sum += n;
+            unchecked {
+                n++;
+            }
+        }
+    }
+
+    function loop_checked_plusplus() external pure returns (uint256 sum) {//58611
+        for(uint256 n = 0; n < 100;n++) {
+            sum += n; 
+        }
+    }
+
+    function loop_assembly() external pure returns (uint256) {//27752
+        assembly {
+            let sum := 0
+            for {let n := 0} lt(n, 100) {n := add(n, 1)} {
+                sum := add(sum, n)
+            }
+            mstore(0, sum)
+            return(0, 32)
+        }
+    }
+
+}
+```
+
+for循环中，储存length，节省gas
+----------------------------------
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.17;
+
+contract AAA{
+
+    function loopArray(uint256[] calldata ns) external pure returns (uint256 sum) {//26534
+        for(uint256 i = 0; i < ns.length;) {
+            sum += ns[i];
+            unchecked {
+                i++;
+            }
+        }
+    }
+
+    function loopArray_cached(uint256[] calldata ns) external pure returns (uint256 sum) {//26425
+        uint256 length = ns.length;
+        for(uint256 i = 0; i < length;) {
+            sum += ns[i];
+            unchecked {
+                i++;
+            }
+        }
+    }
+
+    function loopArray_assembly(uint256[] calldata ns) external pure returns(uint256 sum) {//24218
+        assembly {
+            let guard := add(1, calldatasize())
+            for {let offset := ns.offset} 
+                lt(offset, guard) 
+                {offset := add(offset, 32)} 
+
+                {sum := add(sum, calldataload(offset))}
+        }
+    }
+
+}
+    
+```
 
 批量转账的时候
 ----------
