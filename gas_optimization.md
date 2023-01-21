@@ -5,6 +5,7 @@
 * 一些简单的函数尽量用Yul(也就是assembly) [如何使用Yul](https://docs.soliditylang.org/en/latest/yul.html)
 * for循环中, 每次都要使用length, 可以把length存成变量, 放入stack中
 * 除了storage类型, 其他情况uint8并不会比uint256更省,反而还要多做一次cast
+* 在定义状态变量的时候，如果两个变量正好在同一个函数里面修改，那么这两个变量如果属于同一个slot将会节省gas
 
 大于等于和小于等于如何使用比较省gas
 -------------------------
